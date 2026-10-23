@@ -8,7 +8,11 @@ wysyłania danych do zewnętrznych usług.
 
 ## Instalacja
 
-Wymagania: Python 3.9+ i Pillow 10.1+. Uruchom polecenia w katalogu repozytorium.
+Wymagania: Python 3.11+ i Pillow 13.0+. Uruchom polecenia w katalogu repozytorium.
+
+Pillow 13 nie obsługuje Pythona 3.9 ani 3.10. Przed aktualizacją zależności
+uaktualnij interpreter do 3.11 lub nowszego; zobacz
+[informację o zgodności Pillow](https://pillow.readthedocs.io/en/stable/releasenotes/13.0.0.html#python-3-10).
 
 Linux:
 
