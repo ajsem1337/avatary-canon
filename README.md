@@ -1,5 +1,7 @@
 # Awatary z inicjałów
 
+![Made with AI](https://img.shields.io/badge/Made%20with-AI-76ddcf)
+
 Skrypt do tworzenia prostych awatarów PNG, np. do profili użytkowników drukarki.
 Podajesz inicjały, dostajesz obraz 256 × 256 px. Działa lokalnie, bez konta i bez
 wysyłania danych do zewnętrznych usług.
@@ -91,3 +93,7 @@ Testy korzystają z `unittest` i nie wymagają dodatkowych bibliotek poza Pillow
 
 Obejmują normalizację inicjałów, kontrast, centrowanie i dopasowanie tekstu,
 brak czcionek systemowych oraz działanie CLI, w tym nadpisywanie i błędy zapisu.
+
+## AI assistance
+
+**Made with AI.** This project was developed with AI assistance, including code, documentation, and testing.
