@@ -1,22 +1,20 @@
-# Awatary z inicjałów
+# Avatars from initials
 
-![Made with AI](https://img.shields.io/badge/Made%20with-AI-76ddcf)
+![Made with AI](https://raw.githubusercontent.com/ajsem1337/ajsem1337/main/assets/made-with-ai.svg)
 
-Skrypt do tworzenia prostych awatarów PNG, np. do profili użytkowników drukarki.
-Podajesz inicjały, dostajesz obraz 256 × 256 px. Działa lokalnie, bez konta i bez
-wysyłania danych do zewnętrznych usług.
+A local script that creates 256 × 256 px PNG avatars from initials, for example for printer user profiles, without accounts or external services.
 
-## Instalacja
+## Installation
 
-Wymagania: Python 3.11+ i Pillow 13.0+. Uruchom polecenia w katalogu repozytorium.
+Requirements: Python 3.11+ and Pillow 13.0+. Run the commands in the repository directory.
 
-Pillow 13 nie obsługuje Pythona 3.9 ani 3.10. Przed aktualizacją zależności
-uaktualnij interpreter do 3.11 lub nowszego; zobacz
-[informację o zgodności Pillow](https://pillow.readthedocs.io/en/stable/releasenotes/13.0.0.html#python-3-10).
+Pillow 13 does not support Python 3.9 or 3.10. Upgrade to Python 3.11 or newer
+before updating dependencies; see the
+[Pillow compatibility note](https://pillow.readthedocs.io/en/stable/releasenotes/13.0.0.html#python-3-10).
 
 Linux:
 
-```bash
+```sh
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python tworzenie_avatarow.py --user mc
@@ -30,74 +28,75 @@ py -m venv .venv
 .\.venv\Scripts\python.exe .\tworzenie_avatarow.py --user mc
 ```
 
-Skrypt wypisze ścieżkę do gotowego pliku:
+The script prints the path to the generated file:
 
 ```text
 avatary/etg_MC.png
 ```
 
-Na Windows ścieżka używa separatora `\`. Jeśli Linux zgłasza brak modułu `venv`,
-zainstaluj pakiet udostępniający go w swojej dystrybucji.
+Windows paths use the `\` separator. If Linux reports that `venv` is missing,
+install the package that provides it for your distribution.
 
-## Użycie
+## Usage
 
-Przykłady poniżej używają interpretera z linuksowego środowiska `.venv`.
-Na Windows zastąp `.venv/bin/python` przez `.\.venv\Scripts\python.exe`.
+The examples below use the interpreter from the Linux `.venv` environment.
+On Windows, replace `.venv/bin/python` with `.\.venv\Scripts\python.exe`.
 
-```bash
+```sh
 .venv/bin/python tworzenie_avatarow.py --user "łż"
 .venv/bin/python tworzenie_avatarow.py --user mc --outdir "gotowe awatary"
 .venv/bin/python tworzenie_avatarow.py --help
 ```
 
-| Argument | Działanie |
+| Argument | Purpose |
 | --- | --- |
-| `--user` | Wymagany. Tekst, z którego powstaną inicjały. |
-| `--outdir` | Katalog wynikowy, domyślnie `avatary`. Tworzony automatycznie. |
+| `--user` | Required. Text used to generate the initials. |
+| `--outdir` | Output directory, defaulting to `avatary`. Created automatically. |
 
-Katalog wynikowy jest liczony względem bieżącego katalogu terminala.
-Plik ma nazwę `etg_<INICJAŁY>.png`. **Istniejący plik o tej nazwie zostanie
-nadpisany bez pytania.**
+The output directory is relative to the terminal's current directory.
+The filename is `etg_<INICJAŁY>.png`, where `<INICJAŁY>` means the uppercase initials.
+**An existing file with that name is overwritten without prompting.**
 
-## Jak powstaje awatar
+## How avatars are generated
 
-- Tekst jest zamieniany na wielkie litery. Spacje i znaki inne niż litery lub
-  cyfry są usuwane; zostają pierwsze dwa znaki. `m-c` daje `MC`, `7` daje `7`.
-- Skrypt nie wyciąga inicjałów z imienia i nazwiska: `Jan Kowalski` daje `JA`.
-- Równoważne zapisy Unicode są ujednolicane przed filtrowaniem znaków.
-- Kolor tła wynika ze skrótu SHA-256 inicjałów. Te same inicjały dają to samo tło.
-- Tekst jest czarny albo biały, zależnie od tego, który kolor daje większy
-  [kontrast względem tła](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum).
-- Obraz jest zapisywany jako PNG w trybie RGB, bez przezroczystości.
+- Text is converted to uppercase. Spaces and non-alphanumeric characters are
+  removed, and the first two characters are kept. `m-c` produces `MC`; `7` produces `7`.
+- The script does not extract initials from full names: `Jan Kowalski` produces `JA`.
+- Equivalent Unicode representations are normalized before filtering characters.
+- The background color comes from a SHA-256 hash of the initials. The same initials
+  produce the same background.
+- Text is black or white, whichever gives greater
+  [contrast against the background](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum).
+- Images are saved as RGB PNGs without transparency.
 
-Skrypt korzysta z wyszukiwania czcionek w Pillow: obsługuje katalogi systemowe
-Linuxa, Windows i macOS oraz katalogi użytkownika i ustawienia XDG na Linuxie.
-Próbuje kolejno DejaVu Sans Bold, Liberation Sans Bold, Noto Sans Bold,
-Segoe UI Bold, Arial Bold i Calibri Bold, a następnie Arial Bold dla macOS.
-Gdy ich nie znajdzie, korzysta z czcionki wbudowanej
-w Pillow. Jej [skalowanie wymaga Pillow 10.1+](https://pillow.readthedocs.io/en/stable/reference/ImageFont.html#PIL.ImageFont.load_default).
-Wbudowana czcionka ma ograniczony zestaw znaków; do polskich liter najlepiej
-mieć jedną z wymienionych czcionek systemowych. Nie każdy znak przyjęty przez
-`--user` musi być dostępny w wybranej czcionce.
+The script uses Pillow's font lookup, which searches system directories on
+Linux, Windows and macOS, as well as user directories and XDG settings on Linux.
+It tries DejaVu Sans Bold, Liberation Sans Bold, Noto Sans Bold, Segoe UI Bold,
+Arial Bold and Calibri Bold in that order, followed by Arial Bold for macOS.
+If none is found, it uses Pillow's built-in font, whose
+[scaling requires Pillow 10.1+](https://pillow.readthedocs.io/en/stable/reference/ImageFont.html#PIL.ImageFont.load_default).
+The built-in font has a limited character set; for Polish letters, install one
+of the listed system fonts. The selected font may not support every character
+accepted by `--user`.
 
-Wygląd liter zależy od dostępnej czcionki i wersji Pillow. Pliki wygenerowane
-na różnych komputerach mogą wyglądać inaczej mimo tych samych inicjałów.
+Letter shapes depend on the available font and Pillow version. Images generated
+on different computers may look different even with the same initials.
 
-## Błędy i testy
+## Errors and tests
 
-Kod zakończenia `0` oznacza sukces, `2` — błędne argumenty lub brak liter/cyfr
-w `--user`, a `1` — błąd tworzenia obrazu albo zapisu. Sprawdź komunikat błędu,
-ścieżkę katalogu i uprawnienia do zapisu.
+Exit code `0` means success; `2` means invalid arguments or no letters/digits in
+`--user`; `1` means image creation or writing failed. Check the error message,
+directory path and write permissions.
 
-Testy korzystają z `unittest` i nie wymagają dodatkowych bibliotek poza Pillow:
+Tests use `unittest` and require no libraries beyond Pillow:
 
-```bash
+```sh
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-Obejmują normalizację inicjałów, kontrast, centrowanie i dopasowanie tekstu,
-brak czcionek systemowych oraz działanie CLI, w tym nadpisywanie i błędy zapisu.
+They cover initials normalization, contrast, text centering and fitting,
+missing system fonts, and CLI behavior, including overwrites and write errors.
 
-## AI assistance
+---
 
-**Made with AI.** This project was developed with AI assistance, including code, documentation, and testing.
+<p align="center"><sub>Built by <a href="https://github.com/ajsem1337">ajsem</a> with AI assistance.</sub></p>
